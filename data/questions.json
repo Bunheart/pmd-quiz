@@ -1,0 +1,71 @@
+[
+    {
+        "id": 0,
+        "question": "Which season do you like best?",
+        "options": [
+            "Spring",
+            "Summer",
+            "Fall",
+            "Winter"
+        ],
+        "influence": "quadrant",
+        "values": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "id": 1,
+        "question": "A wizard suddenly appears and offers to turn you into a magical creature! What do you ask them to transform you into?",
+        "options": [
+            "A  great, fire-breathing dragon!",
+            "A cute little forest fairy.",
+            "A strong and agile merfolk.",
+            "An enchanted unicorn!"
+        ],
+        "influence": "type"
+    },
+    {
+        "id": 2,
+        "question": "You go to a movie theater without knowing the current attractions. What will you be seeing?",
+        "options": [
+            "An action movie.",
+            "A scary movie!",
+            "A romance.",
+            "I'll pick blindly."
+        ],
+        "influence": 1
+    },
+    {
+        "id": 3,
+        "question": "",
+        "options": [
+            "",
+            "",
+            "",
+            ""
+        ],
+        "influence": 2
+    },
+    {
+        "id": 42,
+        "question": "Which do you identify with most?",
+        "options": [
+            "Boy",
+            "Girl",
+            "Something else..."
+        ],
+        "influence": [
+            "Boy",
+            "Girl",
+            "Poipole"
+        ],
+        "values": [
+            "M",
+            "F",
+            "Poipole"
+        ]
+    }
+]
