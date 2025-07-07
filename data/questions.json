@@ -10,10 +10,10 @@
         ],
         "influence": "quadrant",
         "values": [
-            0,
-            1,
-            2,
-            3
+            "Spring",
+            "Summer",
+            "Fall",
+            "Winter"
         ]
     },
     {
@@ -25,10 +25,79 @@
             "A strong and agile merfolk.",
             "An enchanted unicorn!"
         ],
-        "influence": "type"
+        "influence": "type",
+        "values": [
+            "Fire",
+            "Grass",
+            "Water",
+            "Other"
+        ]
     },
     {
         "id": 2,
+        "question": "What kind of food do you like best?",
+        "options": [
+            "Spicy",
+            "Sweet",
+            "Sour",
+            "Bitter",
+            "Salty"
+        ],
+        "influence": [
+            ["Hardy", "Lonely", "Brave", "Adamant", "Naughty"],
+            ["Timid", "Hasty", "Serious", "Jolly", "Naive"],
+            ["Bold", "Docile", "Relaxed", "Impish", "Lax"],
+            ["Calm", "Gentle", "Sassy", "Careful", "Quirky"],
+            ["Modest", "Mild", "Quiet", "Bashful", "Rash"]
+        ],
+        "values": [
+            1, 1, 1, 1, 1
+        ]
+    },
+    {
+        "id": 3,
+        "question": "How do you think other people describe you?",
+        "options": [
+            "Cool!",
+            "Cute. ♪",
+            "Tough!",
+            "Smart.",
+            "Beautiful"
+        ],
+        "influence": [
+            ["Timid", "Hasty", "Serious", "Jolly", "Naive"],
+            ["Bold", "Docile", "Relaxed", "Impish", "Lax"],
+            ["Hardy", "Lonely", "Brave", "Adamant", "Naughty"],
+            ["Modest", "Mild", "Quiet", "Bashful", "Rash"],
+            ["Calm", "Gentle", "Sassy", "Careful", "Quirky"]
+        ],
+        "values": [
+            1, 1, 1, 1, 1
+        ]
+    },
+    {
+        "id": 4,
+        "question": "What sort of games do you like to play the most?",
+       "options": [
+            "Action/Adventure",
+            "Puzzle/Strategy",
+            "Fighting",
+            "Party",
+            "Simulation/Dress Up"
+        ],
+        "influence": [
+            ["Timid", "Hasty", "Serious", "Jolly", "Naive"],
+            ["Modest", "Mild", "Quiet", "Bashful", "Rash"],
+            ["Hardy", "Lonely", "Brave", "Adamant", "Naughty"],
+            ["Calm", "Gentle", "Sassy", "Careful", "Quirky"],
+            ["Bold", "Docile", "Relaxed", "Impish", "Lax"]
+        ],
+        "values": [
+            1, 1, 1, 1, 1
+        ]
+    },
+    {
+        "id": 5,
         "question": "You go to a movie theater without knowing the current attractions. What will you be seeing?",
         "options": [
             "An action movie.",
@@ -36,18 +105,142 @@
             "A romance.",
             "I'll pick blindly."
         ],
-        "influence": 1
+        "influence": [
+            ["Adamant", "Modest"],
+            ["Brave", "Bold"],
+            "Lonely",
+            ["Relaxed", "Mild"]
+        ],
+        "values": [
+            [4, 2], [4, 2], 4, [4, 2]
+        ]
     },
     {
-        "id": 3,
-        "question": "",
+        "id": 6,
+        "question": "After a dinner with your friend, they offer to pay for the meal. The ticket finally arrives and you…",
         "options": [
-            "",
-            "",
-            "",
-            ""
+            "Let them handle it.",
+            "Offer to pay for yourself.",
+            "Pay for the both of you.",
+            "Try to sneakily pay for it.",
+            "Actually... how much is it...?"
         ],
-        "influence": 2
+        "influence": [
+            ["Modest", "Quiet"],
+            ["Docile", "Bashful"],
+            ["Serious", "Gentle"],
+            ["Impish", "Jolly"],
+            ["Careful", "Naive"]
+        ],
+        "values": [
+            [4, 2], [4, 2], [4, 2], [4, 2], [4, 2]
+        ]
+    },
+    {
+        "id": 7,
+        "question": "Do you consider yourself strong?",
+        "options": [
+            "Heck yeah!",
+            "Not really.",
+            "Like, metaphorically or... ?"
+        ],
+        "influence": [
+            ["Jolly", "Bold"],
+            "Bashful",
+            "Naive"
+        ],
+        "values": [
+            [4, 2], 4, 4
+        ]
+    },
+    {
+        "id": 8,
+        "question": "Have you ever called someone by the wrong name?",
+        "options": [
+            "Yeah...",
+            "Never!"
+        ],
+        "influence": [
+            ["Naive", "Modest"],
+            ["Gentle", "Careful"]
+        ],
+        "values": [
+            [4, 2], [4, 2]
+        ]
+    },
+    {
+        "id": 9,
+        "question": "hat sort of music do you like to listen to?",
+        "options": [
+            "Rock",
+            "Jazz",
+            "Pop",
+            "Classical",
+            "A bit of everything"
+        ],
+        "influence": [
+            ["Naughty", "Hardy"],
+            ["Relaxed", "Jolly"],
+            "Sassy",
+            ["Mild", "Serious"],
+            ["Lax", "Quirky"]
+        ],
+        "values": [
+            [4, 2], [4, 2], 4, [4, 2], [4, 2]
+        ]
+    },
+    {
+        "id": 10,
+        "question": "Are you the type to either…",
+        "options": [
+            "Try something new!",
+            "I'll stick with what I know."
+        ],
+        "influence": [
+            ["Rash", "Brave"],
+            ["Adamant", "Careful"]
+        ],
+        "values": [
+            [4, 2], [4, 2]
+        ]
+    },
+    {
+        "id": 11,
+        "question": "Two of your friends are fighting! What do you do?",
+        "options": [
+            "Intervene!",
+            "Pick the side of my favourite.",
+            "Let's just see how this plays out.",
+            "Hey! I wanna fight too!"
+        ],
+        "influence": [
+            "Rash",
+            ["Bold", "Hasty"],
+            ["Quiet", "Careful"],
+            "Naughty"
+        ],
+        "values": [
+            4, [4, 2], [4, 2], 4
+        ]
+    },
+    {
+        "id": 12,
+        "question": "Your class is taking a surprise field trip! Where would you like to go the most?",
+        "options": [
+            "The beach.",
+            "The zoo.",
+            "A science lab.",
+            "An art museum."
+        ],
+        "influence": [
+            ["Docile", "Mild"],
+            "Gentle",
+            "Quiet",
+            ["Lonely", "Relaxed"]
+        ],
+        "values": [
+            [4, 2], 4, 2, [4, 2]
+        ]
     },
     {
         "id": 42,

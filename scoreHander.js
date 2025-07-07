@@ -1,19 +1,26 @@
 // TODO: Means of getting the scores, default nature list order
 
-const natures = [];
+const natures = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", "Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", "Mild", "Quiet", "Bashful", "Rash", "Calm", "Gentle", "Sassy", "Careful", "Quirky"]
 var natureScores = [];
 var selSeason;
+var typeBoost;
 var gender;
+var result;
+var poipoleOverride = false;
 // var region; Potential alternate attribute
 
 // TODO: Load in the results.json file
-function getResult()
+function getResult(scores, season, type, gen)
 {
+
+    assignValues(scores, season, type, gen);
+    const results = require('./data/results.json');
+
+
     if (gender != "M" || "F")
     {
-        natureRankings = naturePriority();
-        tieCheck(natureRankings);
-        showResult("Poipole");
+        poipoleOverride = true;
+        resultsSearch(results.female)
     }
     else if (gender == M)
     {
@@ -24,6 +31,25 @@ function getResult()
         resultsSearch(results.female);
     }
 
+    if (poipoleOverride)
+    {
+        result.name = "Poipole";
+        result.id = "39"
+
+    }
+    return result;
+
+}
+
+window.getResult = getResult;
+
+function assignValues(scores, season, type, gen)
+{
+    natureScores = scores;
+    selSeason = season;
+    typeBoost = type;
+    gender = gen;
+
 }
 
 // TODO: Test
@@ -33,28 +59,41 @@ function resultsSearch(resultList)
 
     natureRankings = naturePriority();
 
-    tieCheck(natureRankings);
-
     var selected = false;
 
     while(!selected)
     {
-        for (const nature of natureRankings.text)
+        tieCount = tieCheck(natureRankings);
+        selection = [];
+
+        for (i = 0; i < (tieCount + 1); i++)
         {
-            selection = seasonalResults.filter(q => q.nature == nature);
+            filtered = seasonalResults.filter(q => q.nature == natureRankings[i].text);
+            if (filtered.length > 0)
+            {
+                selection.push(filtered);
+            }
+        }
 
-            if (selection === undefined || selection.length == 0)
+        if (selection == undefined || selection.length == 0)
+        {
+            a = natureRankings;
+            b = tiecount + 1;
+            for (j = 0; j < (a.length - (tiecount + 1)); j++)
             {
-
+                natureRankings[j] = a[b];
+                b++
             }
-            else if (selection.length > 1)
-            {
-                tieBreaker(selection);
-            }
-            else
-            {
-                sendResult(selection)
-            }
+        }
+        else if (selection.length > 1)
+        {
+            tieBreakerNature(selection);
+            selected = true;
+        }
+        else
+        {
+            result = selection;
+            selected = true;
         }
     }
 
@@ -76,36 +115,44 @@ function tieCheck(natureRankings)
     scores = natureRankings.map(item => item.num);
     i = 0;
 
-    var ties = [];
+    var ties = 0;
 
     for (const nature of scores)
     {
         if (nature == scores[0])
         {
-            ties.push(names[i]);
+            ties++;
         }
         i++;
     }
 
-    console.log(ties);
+    return ties;
 
-    if (ties.length > 1)
-    {
-        tieBreaker(ties);
-    }
 }
 
-// TODO: Split into two separate functions, one for the nature tiebreaker (to rearrange the array further as needed and account for later ties) and the final selection
-//  Code to pick between remaining options when all else fails
-function tieBreaker(ties)
+function tieBreakerNature(ties)
+{
+    typeFilter = ties.filter(q => q.type == typeBoost);
+
+    if (typeFilter === undefined || typeFilter.length == 0)
+        {
+
+        }
+        else if (typeFilter.length > 1)
+        {
+            tieBreakerResult(typeFilter);
+        }
+        else
+        {
+            result = typeFilter;
+        }
+
+}
+
+function tieBreakerResult(ties)
 {
     var a = Math.floor(Math.random() * (ties.length - 0));
 
-    //
-}
-
-// TODO: Make this whole feature
-function sendResult(result)
-{
+    result = ties[a];
 
 }
