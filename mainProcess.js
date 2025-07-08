@@ -9,36 +9,62 @@ var gender;
 var typeBoost;
 var season;
 var result;
+var questions;
 
-// Call question database
+mainProcess();
 
-const questions = require("./data/questions.json");
-selectQuestions();
-
-for (i = 1; i < (questionOrder.length + 1); i++)
+async function mainProcess()
 {
-    currQuestion = questions.find(q => q.id === questionOrder[i]);
-    generateQuestion(i);
+    // Call question database
+    questions = await loadData("/data/questions.json");
 
-    switch (currQuestion.id)
+    selectQuestions();
+
+    for (i = 0; i < questionOrder.length; i++)
     {
-        case 0:
-            season = currQuestion.values[selectionID];
-            break;
-        case 1:
-            typeBoost = currQuestion.values[selectionID];
-            break;
-        case 42:
-            gender = currQuestion.values[selectionID];
-            break;
-        default:
-            addScore(currQuestion.influence[selectionID]);
+        console.log("Printing the value of i");
+        console.log(i);
+        console.log("It shouldn't stop until");
+        console.log(questionOrder.length);
+        currQuestion = questions.find(q => q.id == questionOrder[i]);
+        generateQuestion(i);
+        selectionID = await waitForButtonClick(".answer-button");
+        console.log("proceeding");
+        switch (currQuestion.id)
+        {
+            case 0:
+                season = currQuestion.values[selectionID];
+                break;
+            case 1:
+                typeBoost = currQuestion.values[selectionID];
+                break;
+            case 42:
+                gender = currQuestion.values[selectionID];
+                break;
+            default:
+                addScore(currQuestion.influence[selectionID], currQuestion.values[selectionID]);
+        }
+        
+        clearDisplay();
     }
-    
+
+    result = window.getResult(score, season, typeBoost, gender);
+    sendResult(result);
+    await waitForButtonClick(".restart");
 }
 
-result = window.getResult(score, season, typeBoost, gender);
-sendResult(result);
+async function loadData(url)
+{
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.warn(`Failed to load ${url}, using fallback.`, error);
+    }
+}
 
 function selectQuestions()
 {
@@ -49,37 +75,20 @@ function selectQuestions()
     // Selects a special question
     questionIDs.push(Math.floor(Math.random() * (4 - (2 + 1)) + 2));
 
-    for (i = 0; i < 7; i++)
+    while (questionIDs.length < 10)
     {
-        repeat = true;
-        duplicate = false;
+        // Math hard. Make sure this pulls from question IDs 5 - 38. 0 and 1 are reserved for season and type, 2-4 are special questions, 39 is gender
+        a = Math.floor(Math.random() * (38 - 5 + 1) + 5);
 
-        while (repeat)
+        if (!questionIDs.includes[a])
         {
-
-        // Math hard. Make sure this pulls from question IDs 5 - 37. 0 and 1 are reserved for season and type, 2-4 are special questions, 42 is gender
-        a = Math.floor(Math.random() * (37 - 5 + 1) + 5);
-
-        // Loop through randomised question values (array IDs 2 - 9)
-        for (j = 2; j > 10; j++)
-            {
-                if (a == questionIDs[j])
-                {
-                    duplicate = true;
-                }
-            }
-
-            repeat = duplicate;
-            duplicate = false;
+            questionIDs.push(a);
         }
-
-        questionIDs.push(a);
-    
     }
 
     questionOrder = jumbleArray(questionIDs);
     // Guaranteed final question added after the reshuffle
-    questionOrder.push(42)
+    questionOrder.push(39)
 }
 
 function jumbleArray(oldArray)
@@ -97,7 +106,7 @@ function jumbleArray(oldArray)
 }
 
 // Display dialogue boxes, invoke this in later functions. Add "skippable" flag for ones that can be clicked through (this would be false for questions for example) and "selectable" for answers
-function createTextbox(container, skippable, clickable, boxClass, text, type, answerID)
+function createTextbox(container, skippable, clickable, boxClass, text)
 {
 
     textbox = document.createElement("div");
@@ -118,24 +127,12 @@ function createTextbox(container, skippable, clickable, boxClass, text, type, an
     {
         textbox.classList.add("clickable");
     }
-    if (type === "button")
-    {
-        boxText = document.createElement("button");
-        boxText.classList.add("answer-button");
-        boxText.addEventListener("click", () => 
-            {
-                selectionID = answerID;
-            }
-        );
-    }
-    else
-    {
-        boxText = document.createElement("p");
-    }
+    
+    boxText = document.createElement("p");
     boxText.textContent = text;
 
     container.appendChild(textbox);
-    container.appendChild(boxText);
+    textbox.appendChild(boxText);
 
 }
 
@@ -145,19 +142,34 @@ function generateQuestion()
     a = document.getElementById("textbox");
     a.innerHTML = "";
 
-    createTextbox(a, false, false, "question", currQuestion.question, "p", 0);
+    createTextbox(a, false, false, "question", currQuestion.question);
 
-    generateAnswers(currQuestion.options)
+    console.log(questions);
+    console.log(currQuestion);
+    console.log(currQuestion.options);
+
+    generateAnswers()
 }
 
-function generateAnswers(answers)
+function generateAnswers()
 {
     a = document.getElementById("answers");
     a.innerHTML = "";
 
-    for (i = 0; i > answers.length; i++)
+    buttonContainer = document.createElement("div");
+    buttonContainer.classList = "answer-list";
+
+    a.appendChild(buttonContainer);
+
+    for (i = 0; i < currQuestion.options.length; i++)
     {
-        createTextbox(a, false, true, "answer", answers[i], "button", i);
+        answerButton = null;
+        answerButton = document.createElement("button");
+        answerButton.classList.add("answer-button");
+        answerButton.textContent = currQuestion.options[i];
+        answerButton.dataset.value = i;
+
+        buttonContainer.appendChild(answerButton);
     }
 }
 
@@ -167,7 +179,16 @@ function addScore(nature, points)
     {
         i = 0;
         a = natureList.indexOf(n);
-        score[a] += points[i];
+        if (points.length > 1)
+        {
+            score[a] += points[i];
+            i++
+        }
+        else
+        {
+            score[a] += points[0];
+        }
+        
     }
 }
 
@@ -201,9 +222,34 @@ function showImage(container, result)
     container.append(imageContent);
 }
 
+function waitForButtonClick(buttonClass) {
+    return new Promise((resolve) => {
+        const buttons = document.querySelectorAll(buttonClass);
+        
+        const handleClick = (event) => {
+            const index = Number(event.target.dataset.value);
+            buttons.forEach(btn => btn.removeEventListener('click', handleClick));
+            resolve(index);
+        };
+
+    
+    buttons.forEach(btn => btn.addEventListener('click', handleClick));
+    });
+}
+
 function clearData()
 {
     score = [];
     questionOrder = [];
     selectionID = 0;
+}
+
+function clearDisplay()
+{
+    a = document.getElementById("textbox");
+    a.innerHTML = null;
+    a = document.getElementById("answers");
+    a.innerHTML = null;
+    a = document.getElementById("results");
+    a.innerHTML = null;
 }

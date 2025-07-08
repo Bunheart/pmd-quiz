@@ -38,6 +38,26 @@ body
     justify-content: center;
 }
 
+.answer-list
+{
+    width: 20%;
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    justify-content: center;
+}
+
+.answer-button
+{
+    width: 20%;
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    justify-content: center;
+}
+
 .answer-button:hover
 {
     opacity:100%;

@@ -7,15 +7,30 @@ var typeBoost;
 var gender;
 var result;
 var poipoleOverride = false;
+var results;
 // var region; Potential alternate attribute
 
-// TODO: Load in the results.json file
+async function loadData(url)
+{
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        data = await response.json();
+        return data;
+    } catch (error) {
+        console.warn(`Failed to load ${url}, using fallback.`, error);
+    }
+}
+
 function getResult(scores, season, type, gen)
 {
-
+    resultsObject = loadData("./data/results.json");
+    results = Object.values(resultsObject);
+    while (results === undefined)
+    {
+        
+    }
     assignValues(scores, season, type, gen);
-    const results = require('./data/results.json');
-
 
     if (gender != "M" || "F")
     {
