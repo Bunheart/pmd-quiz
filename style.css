@@ -1,31 +1,52 @@
-body
+* 
 {
-    
+  box-sizing: border-box;
+}
+
+html, body
+{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#quiz
+{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.fillSpace
+{
+    flex: 1;
 }
 
 .question
 {
-    width: 100%;
+    color: white;
+    background-color: #212421;
+    font-size: 1.5rem;
+    width: 80%;
     height: 10%;
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: auto;
+    margin-left: 10%;
+    margin-bottom: 1em;
 }
 
 .dialogue
 {
-
-}
-
-.skippable
-{
-
-}
-
-.clickable
-{
-
+    color: white;
+    background-color: #212421;
+    display:flex;
+    justify-content: center;
 }
 
 .answer
@@ -34,7 +55,6 @@ body
     height: 10%;
     display: flex;
     flex-direction: column;
-    align-items: right;
     justify-content: center;
 }
 
@@ -44,18 +64,24 @@ body
     height: 10%;
     display: flex;
     flex-direction: column;
-    align-items: right;
     justify-content: center;
+    margin-left: auto;
+    margin-right: 10%;
+    margin-bottom: 0.5em;
 }
 
 .answer-button
 {
-    width: 20%;
-    height: 10%;
+    color: white;
+    background-color: #212421;
     display: flex;
     flex-direction: column;
-    align-items: right;
+    margin-top: 0.5rem;
+    padding: 0.1em;
     justify-content: center;
+    font-size: 1.5rem;
+    opacity:80%;
+    box-sizing: border-box;
 }
 
 .answer-button:hover
@@ -64,7 +90,27 @@ body
     transition: opacity 0.3s ease-in-out;
 }
 
+.pokeName
+{
+    color: yellow;
+    font-weight: bold;
+}
+
 .portrait
 {
+    display:flex;
+    margin-left:auto;
+    margin-right:auto;
+    width: 10%;
+    image-rendering: pixelated;
+}
 
+.hasBorder
+{
+    border: 5px solid transparent; 
+    border-image-source: url("/img/border.png");
+    border-image-slice: 5 7;
+    border-image-repeat: stretch;
+    border-image-width: auto;
+    background-clip: padding-box;
 }

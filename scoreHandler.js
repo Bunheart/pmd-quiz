@@ -1,5 +1,3 @@
-// TODO: Means of getting the scores, default nature list order
-
 const natures = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", "Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", "Mild", "Quiet", "Bashful", "Rash", "Calm", "Gentle", "Sassy", "Careful", "Quirky"]
 var natureScores = [];
 var selSeason;
@@ -7,8 +5,6 @@ var typeBoost;
 var gender;
 var result;
 var poipoleOverride = false;
-var results;
-// var region; Potential alternate attribute
 
 async function loadData(url)
 {
@@ -22,37 +18,35 @@ async function loadData(url)
     }
 }
 
-function getResult(scores, season, type, gen)
+async function getResult(scores, season, type, gen)
 {
-    resultsObject = loadData("./data/results.json");
-    results = Object.values(resultsObject);
-    while (results === undefined)
-    {
-        
-    }
+    let results = await loadData("/data/results.json");
+    
     assignValues(scores, season, type, gen);
 
-    if (gender != "M" || "F")
+    if (gender == "M")
     {
-        poipoleOverride = true;
-        resultsSearch(results.female)
+        await resultsSearch(results.male);
     }
-    else if (gender == M)
+    else if (gender == "F")
     {
-        resultsSearch(results.male);
+        await resultsSearch(results.female);
     }
     else
     {
-        resultsSearch(results.female);
+        poipoleOverride = true;
+        await resultsSearch(results.female);
     }
+
+    const normalisedResults = Array.isArray(result) ? result : [result];
 
     if (poipoleOverride)
     {
-        result.name = "Poipole";
-        result.id = "39"
+        normalisedResults[0].name = "Poipole";
+        normalisedResults[0].id = "39"
 
     }
-    return result;
+    return normalisedResults;
 
 }
 
@@ -68,46 +62,58 @@ function assignValues(scores, season, type, gen)
 }
 
 // TODO: Test
-function resultsSearch(resultList)
+async function resultsSearch(resultList)
 {
     const seasonalResults = resultList.filter(q => q.season == selSeason);
 
-    natureRankings = naturePriority();
+    await debugText(seasonalResults, "seasonalResults");
 
-    var selected = false;
+    natureRankings = naturePriority();
+    await debugText(natureRankings, "natureRankings");
+
+    let selectionFlat;
+    let selected = false;
+    let tieCount = 0;
 
     while(!selected)
     {
-        tieCount = tieCheck(natureRankings);
+        selectionFlat = null;
         selection = [];
+        tieCount = tieCheck(natureRankings);
 
+        // For some reason it pretends tiecount doesn't exist here?
         for (i = 0; i < (tieCount + 1); i++)
         {
-            filtered = seasonalResults.filter(q => q.nature == natureRankings[i].text);
+            filtered = seasonalResults.filter(q => q.nature == natureRankings[i].str);
             if (filtered.length > 0)
             {
                 selection.push(filtered);
+                await debugText(selection, "selection");
             }
         }
 
-        if (selection == undefined || selection.length == 0)
+        selectionFlat = await objectToFlatArray(selection);
+        await debugText(selectionFlat.flat(), "selectionFlat");
+        
+        // First condition here reshuffles nature rankings to check second/third best etc
+        if (selectionFlat == undefined || selectionFlat.length == 0)
         {
             a = natureRankings;
-            b = tiecount + 1;
-            for (j = 0; j < (a.length - (tiecount + 1)); j++)
+            b = tieCount + 1;
+            for (j = 0; j < (a.length - (tieCount + 1)); j++)
             {
                 natureRankings[j] = a[b];
                 b++
             }
         }
-        else if (selection.length > 1)
+        else if (selectionFlat.length > 1)
         {
-            tieBreakerNature(selection);
+            tieBreakerNature(selectionFlat);
             selected = true;
         }
         else
         {
-            result = selection;
+            result = selectionFlat;
             selected = true;
         }
     }
@@ -116,21 +122,21 @@ function resultsSearch(resultList)
 
 function naturePriority()
 {
-    var i = natures.map((str, idx) => ({ str, num: natureScores[idx] }));
+    let i = natures.map((str, idx) => ({ str, num: natureScores[idx] }));
 
     i.sort((a, b) => b.num - a.num);
 
     return i;
 }
 
-// TODO: Return an updated version of the array
+// TODO change this to better support second best picks
 function tieCheck(natureRankings)
 {
     names = natureRankings.map(item => item.str);
     scores = natureRankings.map(item => item.num);
     i = 0;
 
-    var ties = 0;
+    let ties = 0;
 
     for (const nature of scores)
     {
@@ -170,4 +176,29 @@ function tieBreakerResult(ties)
 
     result = ties[a];
 
+}
+
+async function debugText(value, message)
+{
+    console.log("DEBUG FUNCTION");
+    console.log(message);
+    console.log(typeof value);
+    console.log(value);
+}
+
+async function objectToFlatArray(object)
+{
+    let a = Array.from(object);
+
+    console.log(a);
+    console.log(typeof a);
+
+
+    let b = a.flat();
+
+
+    console.log(b);
+    console.log(typeof b);
+
+    return b;
 }

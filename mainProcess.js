@@ -1,7 +1,6 @@
-
 // ORDER: "Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", "Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", "Mild", "Quiet", "Bashful", "Rash", "Calm", "Gentle", "Sassy", "Careful", "Quirky"
 const natureList = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", "Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", "Mild", "Quiet", "Bashful", "Rash", "Calm", "Gentle", "Sassy", "Careful", "Quirky"];
-var score = [];
+var score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var questionOrder = [];
 var selectionID = 0;
 var currQuestion;
@@ -19,8 +18,9 @@ async function mainProcess()
     questions = await loadData("/data/questions.json");
 
     selectQuestions();
+    fillVerticalSpace();
 
-    for (i = 0; i < questionOrder.length; i++)
+    for (var i = 0; i < questionOrder.length; i++)
     {
         console.log("Printing the value of i");
         console.log(i);
@@ -29,7 +29,6 @@ async function mainProcess()
         currQuestion = questions.find(q => q.id == questionOrder[i]);
         generateQuestion(i);
         selectionID = await waitForButtonClick(".answer-button");
-        console.log("proceeding");
         switch (currQuestion.id)
         {
             case 0:
@@ -38,7 +37,7 @@ async function mainProcess()
             case 1:
                 typeBoost = currQuestion.values[selectionID];
                 break;
-            case 42:
+            case 39:
                 gender = currQuestion.values[selectionID];
                 break;
             default:
@@ -48,8 +47,11 @@ async function mainProcess()
         clearDisplay();
     }
 
-    result = window.getResult(score, season, typeBoost, gender);
-    sendResult(result);
+    result = await window.getResult(score, season, typeBoost, gender);
+    console.log("Result");
+    console.log(result);
+    freeVerticalSpace();
+    window.sendResult(result);
     await waitForButtonClick(".restart");
 }
 
@@ -105,12 +107,32 @@ function jumbleArray(oldArray)
     return oldArray;
 }
 
+function fillVerticalSpace()
+{
+    let a = document.getElementById("quiz");
+    let spaceFiller = document.createElement("div");
+    spaceFiller.classList = "fillSpace";
+    a.insertBefore(spaceFiller, a.firstChild);
+}
+
+function freeVerticalSpace()
+{
+    let a = document.getElementById("quiz");
+    a.firstChild.remove();
+}
+
 // Display dialogue boxes, invoke this in later functions. Add "skippable" flag for ones that can be clicked through (this would be false for questions for example) and "selectable" for answers
 function createTextbox(container, skippable, clickable, boxClass, text)
 {
 
     textbox = document.createElement("div");
     textbox.classList = boxClass;
+    
+    if(boxClass == "question")
+    {
+        textbox.classList.add("hasBorder");
+    }
+
     if (skippable)
     {
         textbox.classList.add("skippable");
@@ -161,11 +183,12 @@ function generateAnswers()
 
     a.appendChild(buttonContainer);
 
-    for (i = 0; i < currQuestion.options.length; i++)
+    for (var i = 0; i < currQuestion.options.length; i++)
     {
         answerButton = null;
         answerButton = document.createElement("button");
         answerButton.classList.add("answer-button");
+        answerButton.classList.add("hasBorder");
         answerButton.textContent = currQuestion.options[i];
         answerButton.dataset.value = i;
 
@@ -173,59 +196,47 @@ function generateAnswers()
     }
 }
 
-function addScore(nature, points)
+function addScore(answerNature, points)
 {
-    for (const n of nature)
+    nature = makeArray(answerNature);
+    console.log("Old score");
+    console.log(score)
+    if (nature.length == 1)
     {
-        i = 0;
-        a = natureList.indexOf(n);
-        if (points.length > 1)
-        {
-            score[a] += points[i];
-            i++
-        }
-        else
-        {
-            score[a] += points[0];
-        }
-        
+        var natureIndex = natureList.indexOf(nature[0]);
+        score[natureIndex] = score[natureIndex] + points;
     }
-}
-
-function sendResult(result)
-{
-    a = document.getElementById("results");
-    a.innerHTML = "";
-
-    script = require('./data/questions.json');
-    natureScript = script.filter(q => q.nature == result.nature);
-    for(const text of natureScript.text)
+    else if (nature.length > 1)
     {
-        createTextbox(a, true, false, "dialogue", text, "p", 0);
+        console.log("MORE THAN ONE NATURE");
+        for (var i = 0; i < nature.length; i++)
+        {
+            console.log(nature[i]);
+            console.log(natureList.indexOf(nature[i]));
+            var natureIndex = natureList.indexOf(nature[i]);
+            if (points.length > 1)
+            {
+                score[natureIndex] += points[i];
+            }
+            else
+            {
+                score[natureIndex] = score[natureIndex] + points;
+            }
+        }
     }
-    createTextbox(a, true, false, "dialogue", "Someone like you should be...", "p", 0);
-    showImage(a, result);
-    createTextbox(a, false, false, "dialogue", "A <style class=\"pokeName\">" & result.name & "</style>!", "p", 0);
+    else
+    {
+        console.log("Error, no corresponding nature found.");
+    }
 
-}
-
-function showImage(container, result)
-{
-    imageBox = document.createElement("div");
-    imageBox.classList.add("portrait");
-
-    imageContent = document.createElement("img");
-    imageContent.src = "/img/" & result.ID & ".png";
-    imageContent.alt = "A portrait showing a picture of " & result.name & ".";
-
-    container.append(imageBox);
-    container.append(imageContent);
+    console.log("New score");
+    console.log(score);
 }
 
 function waitForButtonClick(buttonClass) {
     return new Promise((resolve) => {
         const buttons = document.querySelectorAll(buttonClass);
-        
+
         const handleClick = (event) => {
             const index = Number(event.target.dataset.value);
             buttons.forEach(btn => btn.removeEventListener('click', handleClick));
@@ -235,6 +246,28 @@ function waitForButtonClick(buttonClass) {
     
     buttons.forEach(btn => btn.addEventListener('click', handleClick));
     });
+}
+
+// Turns things into arrays
+function makeArray(input) {
+
+  if (Array.isArray(input))
+    {
+        return input;
+    }
+
+  // Attempts to parse a string into an array
+  try 
+  {
+    const parsed = JSON.parse(input);
+    if (Array.isArray(parsed)) return parsed;
+  } 
+  catch (e) 
+  {
+    
+  }
+
+  return [input];
 }
 
 function clearData()
@@ -252,4 +285,9 @@ function clearDisplay()
     a.innerHTML = null;
     a = document.getElementById("results");
     a.innerHTML = null;
+}
+
+function debugLine()
+{
+    console.log("==================================");
 }

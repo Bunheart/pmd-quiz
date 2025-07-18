@@ -1,0 +1,203 @@
+[
+    {
+        "nature": "Hardy",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Hardy </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Lonely",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Lonely </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Brave",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Brave </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Adamant",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Adamant </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Naughty",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Naughty </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Bold",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Bold </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Docile",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Docile </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Relaxed",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Relaxed </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Relaxed",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Relaxed </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Impish",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Impish </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Lax",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Lax </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Timid",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Timid </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Hasty",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Hasty </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Serious",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Serious </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Jolly",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Jolly </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Naive",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Naive </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Modest",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Modest </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Quiet",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Quiet </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Bashful",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Bashful </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Rash",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Rash </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Calm",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Calm </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Gentle",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Gentle </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Sassy",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Sassy </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Careful",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Careful </span> type.",
+            "loremipsum"
+        ]
+    },
+    {
+        "nature": "Quirky",
+        "textboxes": "2",
+        "dialogue": [
+            "You seem the <span class=\"pokeName\"> Quirky </span> type.",
+            "loremipsum"
+        ]
+    }
+
+]
