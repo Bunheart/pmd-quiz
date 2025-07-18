@@ -20,7 +20,7 @@ async function loadData(url)
 
 async function getResult(scores, season, type, gen)
 {
-    let results = await loadData("/data/results.json");
+    let results = await loadData("data/results.json");
     
     assignValues(scores, season, type, gen);
 

@@ -15,7 +15,7 @@ mainProcess();
 async function mainProcess()
 {
     // Call question database
-    questions = await loadData("/data/questions.json");
+    questions = await loadData("data/questions.json");
 
     selectQuestions();
     fillVerticalSpace();

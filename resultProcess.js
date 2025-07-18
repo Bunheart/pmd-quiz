@@ -11,7 +11,7 @@ async function sendResult(result)
     a = document.getElementById("results");
     a.innerHTML = "";
 
-    script = await loadData("/data/script.json");
+    script = await loadData("data/script.json");
 
     natureScript = await script.filter(q => q.nature == finalNature);
     console.log("Nature Script");
