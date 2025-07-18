@@ -108,7 +108,7 @@ html, body
 .hasBorder
 {
     border: 5px solid transparent; 
-    border-image-source: url("/img/border.png");
+    border-image-source: url("img/border.png");
     border-image-slice: 5 7;
     border-image-repeat: stretch;
     border-image-width: auto;
