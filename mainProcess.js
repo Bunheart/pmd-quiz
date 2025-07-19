@@ -9,9 +9,102 @@ var typeBoost;
 var season;
 var result;
 var questions;
+var musicStarted = false;
+var introComplete = false;
 
-mainProcess();
+startProcess();
 
+async function startProcess()
+{
+    await startScreen();
+    setTimeout(mainProcess, 3000);
+}
+
+async function startScreen()
+{
+    let tempIntro = ["Start"];
+    await darkMonologue(tempIntro, 0);
+}
+
+async function darkMonologue(dialogue, iterations)
+{
+    await fadeInDarkBackground();
+    await createMonologueContainer();
+    for (let i = 0; i < iterations + 1; i++)
+    {
+        await monologueText(dialogue[i]);
+        await waitForMonologueClick(i, iterations);
+    }
+}
+
+async function fadeInDarkBackground()
+{
+    let a = document.getElementById("background");
+    let darkBG = document.createElement("div");
+    darkBG.classList = "fadeIn";
+    darkBG.id = "darkBG";
+    a.insertBefore(darkBG, a.firstChild);
+}
+
+async function fadeOutDarkBackground()
+{
+    let a = document.getElementById("darkBG");
+    a.classList = "fadeOut";
+}
+
+async function createMonologueContainer()
+{
+    let a = document.getElementById("results");
+    let dialogueContainer = document.createElement("div");
+    dialogueContainer.id = "monologueContainer";
+    a.appendChild(dialogueContainer);
+}
+
+async function monologueText(text)
+{
+    let a = document.getElementById("monologueContainer");
+    let dialogue = document.createElement("p");
+    dialogue.id = "monologueDialogue";
+    dialogue.innerHTML = text;
+    a.appendChild(dialogue);
+}
+
+function waitForMonologueClick(currentLine, finalLine) {
+    return new Promise((resolve) => {
+        const container = document.getElementById("monologueContainer");
+
+        const progressMonologue = (event) => {
+            if (!musicStarted)
+            {
+                playMusic();
+            };
+            eraseMonologueText();
+            if (currentLine == finalLine)
+            {
+                fadeOutDarkBackground();
+                setTimeout(endMonologueScene, 3000);
+            }
+            container.removeEventListener('click', progressMonologue);
+            resolve();
+        };
+    
+    container.addEventListener('click', progressMonologue);
+    });
+}
+
+function eraseMonologueText()
+{
+    let a = document.getElementById("monologueDialogue");
+    a.remove();
+}
+
+async function endMonologueScene()
+{
+    let a = document.getElementById("monologueContainer");
+    let b = document.getElementById("darkBG");
+    a.remove();
+    b.remove();
+}
 async function mainProcess()
 {
     questions = await loadData("data/questions.json");
@@ -275,6 +368,12 @@ function clearData()
     selectionID = null;
     currQuestion = null;
     result = null;
+}
+
+function playMusic()
+{
+    let a = document.getElementById("music");
+    a.play(); 
 }
 
 function debugLine()

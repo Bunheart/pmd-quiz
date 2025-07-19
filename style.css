@@ -145,6 +145,11 @@ html, body
     background-color: #212421;
     display:flex;
     justify-content: center;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .answer
@@ -243,4 +248,77 @@ html, body
     border-image-repeat: stretch;
     border-image-width: auto;
     background-clip: padding-box;
+}
+
+#darkBG
+{
+    position:absolute;
+    z-index: 2;
+}
+
+.fadeIn
+{
+    background-color: #212421;
+    width: 100vw;
+    height: 100vh;
+    opacity: 70%;
+    animation: fadeIn 3s linear;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0%;
+    
+  }
+  to {
+    opacity: 70%;
+    
+  }
+}
+
+.fadeOut
+{
+    background-color: #212421;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0%;
+    animation: fadeOut 3s linear;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 70%;
+    
+  }
+  to {
+    opacity: 0%;
+    
+  }
+}
+
+#monologueContainer
+{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+#monologueDialogue
+{
+    margin: auto;
+    color:white;
+}
+
+#finalResult
+{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.resultContainer
+{
+    margin-top:auto;
+    margin-bottom:auto;
 }

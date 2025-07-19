@@ -6,21 +6,27 @@ async function sendResult(result)
 {
     await resultReassignment(result);
 
-    a = document.getElementById("results");
+    let a = document.getElementById("results");
     a.innerHTML = "";
 
     script = await loadData("data/script.json");
 
     natureScript = await script.filter(q => q.nature == finalNature);
 
-    for(const text of natureScript[0].dialogue)
-    {
-        createTextboxResult(a, false, false, "dialogue", text);
-    }
-    createTextbox(a, false, false, "dialogue", "Someone like you should be...", "p", 0);
-    showImage(a);
-    createTextboxResult(a, false, false, "dialogue", "A <span class=\"pokeName\">" + finalName + "</span>!", "p", 0);
-    createResetButton(a);
+    natureScript[0].dialogue.push("Someone like you should be...");
+    await darkMonologue(natureScript[0].dialogue, natureScript[0].dialogue.length - 1);
+
+    let b = document.createElement("div");
+    b.id = "finalResult";
+    a.appendChild(b);
+
+    let resultContainer = document.createElement("div");
+    resultContainer.classList = "resultContainer";
+    b.appendChild(resultContainer);
+
+    showImage(resultContainer);
+    createTextboxResult(resultContainer, false, false, "dialogue", "A <span class=\"pokeName\">" + finalName + "</span>!", "p", 0);
+    createResetButton(resultContainer);
 
 }
 
@@ -79,7 +85,7 @@ function createResetButton(container)
     let buttonContainer = document.createElement("div");
     buttonContainer.classList = "resetContainer";
 
-    a.appendChild(buttonContainer);
+    container.appendChild(buttonContainer);
 
     resetButton = document.createElement("button");
     resetButton.classList.add("resetButton");
