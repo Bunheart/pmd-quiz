@@ -51,21 +51,21 @@ function assignValues(scores, season, type, gen)
 // TODO: Test
 async function resultsSearch(resultList)
 {
+    console.log(selSeason);
     const seasonalResults = resultList.filter(q => q.season == selSeason);
 
-    await debugText(seasonalResults, "seasonalResults");
-
     natureRankings = naturePriority();
-    await debugText(natureRankings, "natureRankings");
 
     let selectionFlat;
     let selected = false;
     let tieCount = 0;
+    let filtered = [];
 
     while(!selected)
     {
         selectionFlat = null;
         selection = [];
+        filtered = [];
         tieCount = tieCheck(natureRankings);
 
         for (i = 0; i < (tieCount + 1); i++)
@@ -74,7 +74,6 @@ async function resultsSearch(resultList)
             if (filtered.length > 0)
             {
                 selection.push(filtered);
-                await debugText(selection, "selection");
             }
         }
 
@@ -82,18 +81,16 @@ async function resultsSearch(resultList)
         console.log("Flattened");
         console.log(selectionFlat);
         
-        // First condition here reshuffles nature rankings to check second/third best etc
         if (selectionFlat == undefined || selectionFlat.length == 0)
         {
             a = natureRankings;
             b = tieCount + 1;
+            natureRankings = [];
             for (j = 0; j < (a.length - (tieCount + 1)); j++)
             {
                 natureRankings[j] = a[b];
                 b++
             }
-            console.log(selection);
-            console.log(selectionFlat);
         }
         else if (selectionFlat.length > 1)
         {
@@ -123,7 +120,7 @@ function tieCheck(natureRankings)
 {
     names = natureRankings.map(item => item.str);
     scores = natureRankings.map(item => item.num);
-    i = 0;
+    let i = 0;
 
     let ties = 0;
 
@@ -144,11 +141,9 @@ async function tieBreakerNature(ties)
 {
     typeFilter = ties.filter(q => q.type == typeBoost);
 
-    debugText(typeFilter, "Type Filter");
-
     if (typeFilter === undefined || typeFilter.length == 0)
         {
-
+            tieBreakerResult(ties);
         }
         else if (typeFilter.length > 1)
         {
@@ -167,14 +162,6 @@ function tieBreakerResult(ties)
 
     result = ties[a];
 
-}
-
-async function debugText(value, message)
-{
-    console.log("DEBUG FUNCTION");
-    console.log(message);
-    console.log(typeof value);
-    console.log(value);
 }
 
 async function objectToFlatArray(object)

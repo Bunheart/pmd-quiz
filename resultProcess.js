@@ -15,9 +15,9 @@ async function sendResult(result)
 
     for(const text of natureScript[0].dialogue)
     {
-        createTextboxResult(a, true, false, "dialogue", text);
+        createTextboxResult(a, false, false, "dialogue", text);
     }
-    createTextbox(a, true, false, "dialogue", "Someone like you should be...", "p", 0);
+    createTextbox(a, false, false, "dialogue", "Someone like you should be...", "p", 0);
     showImage(a);
     createTextboxResult(a, false, false, "dialogue", "A <span class=\"pokeName\">" + finalName + "</span>!", "p", 0);
     createResetButton(a);

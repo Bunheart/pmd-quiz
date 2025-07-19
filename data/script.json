@@ -64,10 +64,10 @@
         ]
     },
     {
-        "nature": "Relaxed",
+        "nature": "Mild",
         "textboxes": "2",
         "dialogue": [
-            "You seem the <span class=\"pokeName\"> Relaxed </span> type.",
+            "You seem the <span class=\"pokeName\"> Mild </span> type.",
             "loremipsum"
         ]
     },
