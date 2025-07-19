@@ -16,14 +16,16 @@ startProcess();
 
 async function startProcess()
 {
+    specialScript = await loadData("data/scriptSpecial.json");
     await startScreen();
     setTimeout(mainProcess, 3000);
 }
 
 async function startScreen()
 {
-    let tempIntro = ["Start"];
-    await darkMonologue(tempIntro, 0);
+
+    let introText = await specialScript.filter(q => q.type == "Intro");
+    await darkMonologue(introText[0].dialogue, introText[0].dialogue.length - 1);
 }
 
 async function darkMonologue(dialogue, iterations)

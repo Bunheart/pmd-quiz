@@ -1,0 +1,26 @@
+[
+    {
+        "type": "Intro",
+        "textboxes": "7",
+        "dialogue": [
+            "Welcome!",
+            "This is the portal that leads into a brand new adventure.",
+            "Beyond this gateway, many new journeys and fresh experiences await your arrival!",
+            "Before you depart for your adventure, there are some questions you must answer first.",
+            "Be truthful when you answer them!",
+            "Are you ready?",
+            "Now then... let the questions begin!"
+        ]
+    },
+    {
+        "type": "PreResults",
+        "textboxes": "5",
+        "dialogue": [
+            "That's all the questions for now.",
+            "Are you nervous?",
+            "You have no reason to be.",
+            "If you aren't happy with your outcome, take solace in knowing you can always try again.",
+            "Now then...<br>Let's assess your results..."
+        ]
+    }
+]

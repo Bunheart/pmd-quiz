@@ -12,9 +12,11 @@ async function sendResult(result)
     script = await loadData("data/script.json");
 
     natureScript = await script.filter(q => q.nature == finalNature);
-
     natureScript[0].dialogue.push("Someone like you should be...");
-    await darkMonologue(natureScript[0].dialogue, natureScript[0].dialogue.length - 1);
+
+    let finalScript = await assembleFinalScript(natureScript[0].dialogue);
+
+    await darkMonologue(finalScript, finalScript.length - 1);
 
     let b = document.createElement("div");
     b.id = "finalResult";
@@ -25,7 +27,7 @@ async function sendResult(result)
     b.appendChild(resultContainer);
 
     showImage(resultContainer);
-    createTextboxResult(resultContainer, false, false, "dialogue", "A <span class=\"pokeName\">" + finalName + "</span>!", "p", 0);
+    createTextboxResult(resultContainer, "A <span class=\"pokeName\">" + finalName + "</span>!", "p");
     createResetButton(resultContainer);
 
 }
@@ -51,27 +53,12 @@ function showImage(container)
     imageBox.append(imageContent);
 }
 
-function createTextboxResult(container, skippable, clickable, boxClass, text)
+function createTextboxResult(container, text)
 {
 
     textbox = document.createElement("div");
-    textbox.classList = boxClass;
-    if (skippable)
-    {
-        textbox.classList.add("skippable");
-        window.addEventListener("click", () => 
-            {
-                if (textBox) 
-                {
-                    textBox.remove();
-                }
-            }
-        );
-    }
-    if (clickable)
-    {
-        textbox.classList.add("clickable");
-    }
+    textbox.classList.add("dialogue");
+    textbox.classList.add("hasBorder");
     
     boxText = document.createElement("p");
     boxText.innerHTML = text;
@@ -95,4 +82,24 @@ function createResetButton(container)
     buttonContainer.appendChild(resetButton);
 }
 
+function assembleFinalScript(natureDialogue)
+{
+    let finalScript = [];
+
+    let resultsIntro = specialScript.filter(q => q.type == "PreResults");
+
+    console.log(resultsIntro)
+    for(let i = 0; i < resultsIntro[0].dialogue.length; i++)
+    {
+        finalScript.push(resultsIntro[0].dialogue[i]);
+    }
+
+    for(let i = 0; i < natureDialogue.length; i++)
+    {
+        finalScript.push(natureDialogue[i]);
+    }
+
+    return finalScript;
+
+}
 window.sendResult = sendResult;
