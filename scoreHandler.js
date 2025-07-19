@@ -1,22 +1,9 @@
-const natures = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", "Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", "Mild", "Quiet", "Bashful", "Rash", "Calm", "Gentle", "Sassy", "Careful", "Quirky"]
 var natureScores = [];
 var selSeason;
 var typeBoost;
 var gender;
 var result;
 var poipoleOverride = false;
-
-async function loadData(url)
-{
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        data = await response.json();
-        return data;
-    } catch (error) {
-        console.warn(`Failed to load ${url}, using fallback.`, error);
-    }
-}
 
 async function getResult(scores, season, type, gen)
 {
@@ -81,7 +68,6 @@ async function resultsSearch(resultList)
         selection = [];
         tieCount = tieCheck(natureRankings);
 
-        // For some reason it pretends tiecount doesn't exist here?
         for (i = 0; i < (tieCount + 1); i++)
         {
             filtered = seasonalResults.filter(q => q.nature == natureRankings[i].str);
@@ -93,7 +79,8 @@ async function resultsSearch(resultList)
         }
 
         selectionFlat = await objectToFlatArray(selection);
-        await debugText(selectionFlat.flat(), "selectionFlat");
+        console.log("Flattened");
+        console.log(selectionFlat);
         
         // First condition here reshuffles nature rankings to check second/third best etc
         if (selectionFlat == undefined || selectionFlat.length == 0)
@@ -105,10 +92,12 @@ async function resultsSearch(resultList)
                 natureRankings[j] = a[b];
                 b++
             }
+            console.log(selection);
+            console.log(selectionFlat);
         }
         else if (selectionFlat.length > 1)
         {
-            tieBreakerNature(selectionFlat);
+            await tieBreakerNature(selectionFlat);
             selected = true;
         }
         else
@@ -122,7 +111,7 @@ async function resultsSearch(resultList)
 
 function naturePriority()
 {
-    let i = natures.map((str, idx) => ({ str, num: natureScores[idx] }));
+    let i = natureList.map((str, idx) => ({ str, num: natureScores[idx] }));
 
     i.sort((a, b) => b.num - a.num);
 
@@ -151,9 +140,11 @@ function tieCheck(natureRankings)
 
 }
 
-function tieBreakerNature(ties)
+async function tieBreakerNature(ties)
 {
     typeFilter = ties.filter(q => q.type == typeBoost);
+
+    debugText(typeFilter, "Type Filter");
 
     if (typeFilter === undefined || typeFilter.length == 0)
         {

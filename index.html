@@ -12,7 +12,21 @@
 </head>
 <body>
     <noscript>To play this quiz, please enable JavaScript.</noscript>
-    <div id="quiz">
+    <div id="background">
+        <div class="layer1 hueShift">
+            <div class="bgScrollingLeft">
+                <div class="bgImageL"></div>
+                <div class="bgImageL"></div>
+            </div>
+        </div>
+        <div class="layer2 hueShift">
+            <div class="bgScrollingRight">
+            <div class="bgImageR"></div>
+            <div class="bgImageR"></div>
+            </div>
+        </div>
+    </div>
+    <div id="quiz" class="bgHandler1 bgHandler2 bgHandler3">
         <div id="answers"></div>
         <div id="textbox"></div>
         <div id="results"></div>

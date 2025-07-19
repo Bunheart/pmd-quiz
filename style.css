@@ -1,6 +1,14 @@
+@font-face 
+{
+    font-family: "WonderMail";
+    src: url("font/wondermail.ttf") format("truetype");
+}
+
 * 
 {
   box-sizing: border-box;
+  font-family: "WonderMail";
+  font-size: 2rem;
 }
 
 html, body
@@ -19,6 +27,96 @@ html, body
     min-height: 100vh;
 }
 
+#background
+{
+    position: absolute;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    z-index: -10;
+}
+
+.layer1
+{
+    position:absolute;
+    z-index:0;
+}
+
+.layer2
+{
+    position:absolute;
+    z-index:1;
+}
+
+.bgScrollingLeft
+{
+    display:flex;
+    height: 100vh;
+    width: 200vw;
+}
+
+.bgScrollingRight
+{
+    display:flex;
+    height: 100vh;
+    width: 200vw;
+}
+
+.bgImageL
+{
+    background-image:url("img/bg1.png");
+    background-size: 100% 100vh;
+    image-rendering: pixelated;
+    width: 100vw;
+    animation: bgScrollingL 20s linear infinite;
+}
+
+@keyframes bgScrollingL {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.bgImageR
+{
+    background-image:url("img/bg2.png");
+    background-size: 100% 100vh;
+    image-rendering: pixelated;
+    width: 100vw;
+    opacity:50%;
+    animation: bgScrollingR 20s linear infinite;
+}
+
+@keyframes bgScrollingR {
+  0% {
+    transform: translateX(-100%);
+    
+  }
+  100% {
+    transform: translateX(0);
+    
+  }
+}
+
+.hueShift
+{
+    animation: hueShift 40s linear infinite;
+}
+
+@keyframes hueShift 
+{
+    0%
+    {
+        filter: hue-rotate(0deg);
+    }
+    100%
+    {
+        filter: hue-rotate(360deg);
+    }
+}
 .fillSpace
 {
     flex: 1;
@@ -58,7 +156,7 @@ html, body
     justify-content: center;
 }
 
-.answer-list
+.answerList
 {
     width: 20%;
     height: 10%;
@@ -70,7 +168,7 @@ html, body
     margin-bottom: 0.5em;
 }
 
-.answer-button
+.answerButton
 {
     color: white;
     background-color: #212421;
@@ -84,7 +182,39 @@ html, body
     box-sizing: border-box;
 }
 
-.answer-button:hover
+.answerButton:hover
+{
+    opacity:100%;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.resetContainer
+{
+    width: 20%;
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5em;
+}
+
+.resetButton
+{
+    color: white;
+    background-color: #212421;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    padding: 0.1em;
+    justify-content: center;
+    font-size: 1.5rem;
+    opacity:80%;
+    box-sizing: border-box;
+}
+
+.resetButton:hover
 {
     opacity:100%;
     transition: opacity 0.3s ease-in-out;

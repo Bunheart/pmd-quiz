@@ -14,21 +14,16 @@ mainProcess();
 
 async function mainProcess()
 {
-    // Call question database
     questions = await loadData("data/questions.json");
-
+    
     selectQuestions();
     fillVerticalSpace();
 
     for (var i = 0; i < questionOrder.length; i++)
     {
-        console.log("Printing the value of i");
-        console.log(i);
-        console.log("It shouldn't stop until");
-        console.log(questionOrder.length);
         currQuestion = questions.find(q => q.id == questionOrder[i]);
         generateQuestion(i);
-        selectionID = await waitForButtonClick(".answer-button");
+        selectionID = await waitForButtonClick(".answerButton");
         switch (currQuestion.id)
         {
             case 0:
@@ -52,7 +47,6 @@ async function mainProcess()
     console.log(result);
     freeVerticalSpace();
     window.sendResult(result);
-    await waitForButtonClick(".restart");
 }
 
 async function loadData(url)
@@ -61,7 +55,6 @@ async function loadData(url)
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.warn(`Failed to load ${url}, using fallback.`, error);
@@ -75,36 +68,37 @@ function selectQuestions()
     var a = 0;
 
     // Selects a special question
-    questionIDs.push(Math.floor(Math.random() * (4 - (2 + 1)) + 2));
+    questionIDs.push(Math.floor(Math.random() * (4 - 2 + 1) + 2));
 
     while (questionIDs.length < 10)
     {
-        // Math hard. Make sure this pulls from question IDs 5 - 38. 0 and 1 are reserved for season and type, 2-4 are special questions, 39 is gender
+        // This pulls from question IDs 5 - 38. 0 and 1 are reserved for season and type, 2-4 are special questions, 39 is gender
         a = Math.floor(Math.random() * (38 - 5 + 1) + 5);
-
-        if (!questionIDs.includes[a])
+        if (!questionIDs.includes(a))
         {
             questionIDs.push(a);
         }
     }
 
     questionOrder = jumbleArray(questionIDs);
+    console.log(questionOrder);
     // Guaranteed final question added after the reshuffle
     questionOrder.push(39)
 }
 
 function jumbleArray(oldArray)
 {
+    let newArray = oldArray;
 
-    for (let i = oldArray.length -1; i > 0; i--) 
+    for (let i = newArray.length -1; i > 0; i--) 
     {
         let a = Math.floor(Math.random() * (i+1));
-        let b = oldArray[i];
-        oldArray[i] = oldArray[a];
-        oldArray[a] = b;
+        let b = newArray[i];
+        newArray[i] = newArray[a];
+        newArray[a] = b;
     }
 
-    return oldArray;
+    return newArray;
 }
 
 function fillVerticalSpace()
@@ -166,11 +160,7 @@ function generateQuestion()
 
     createTextbox(a, false, false, "question", currQuestion.question);
 
-    console.log(questions);
-    console.log(currQuestion);
-    console.log(currQuestion.options);
-
-    generateAnswers()
+    generateAnswers();
 }
 
 function generateAnswers()
@@ -179,7 +169,7 @@ function generateAnswers()
     a.innerHTML = "";
 
     buttonContainer = document.createElement("div");
-    buttonContainer.classList = "answer-list";
+    buttonContainer.classList = "answerList";
 
     a.appendChild(buttonContainer);
 
@@ -187,7 +177,7 @@ function generateAnswers()
     {
         answerButton = null;
         answerButton = document.createElement("button");
-        answerButton.classList.add("answer-button");
+        answerButton.classList.add("answerButton");
         answerButton.classList.add("hasBorder");
         answerButton.textContent = currQuestion.options[i];
         answerButton.dataset.value = i;
@@ -199,8 +189,6 @@ function generateAnswers()
 function addScore(answerNature, points)
 {
     nature = makeArray(answerNature);
-    console.log("Old score");
-    console.log(score)
     if (nature.length == 1)
     {
         var natureIndex = natureList.indexOf(nature[0]);
@@ -208,11 +196,8 @@ function addScore(answerNature, points)
     }
     else if (nature.length > 1)
     {
-        console.log("MORE THAN ONE NATURE");
         for (var i = 0; i < nature.length; i++)
         {
-            console.log(nature[i]);
-            console.log(natureList.indexOf(nature[i]));
             var natureIndex = natureList.indexOf(nature[i]);
             if (points.length > 1)
             {
@@ -228,9 +213,6 @@ function addScore(answerNature, points)
     {
         console.log("Error, no corresponding nature found.");
     }
-
-    console.log("New score");
-    console.log(score);
 }
 
 function waitForButtonClick(buttonClass) {
@@ -242,7 +224,6 @@ function waitForButtonClick(buttonClass) {
             buttons.forEach(btn => btn.removeEventListener('click', handleClick));
             resolve(index);
         };
-
     
     buttons.forEach(btn => btn.addEventListener('click', handleClick));
     });
@@ -270,11 +251,11 @@ function makeArray(input) {
   return [input];
 }
 
-function clearData()
+function reset()
 {
-    score = [];
-    questionOrder = [];
-    selectionID = 0;
+    clearDisplay();
+    clearData();
+    mainProcess();
 }
 
 function clearDisplay()
@@ -285,6 +266,15 @@ function clearDisplay()
     a.innerHTML = null;
     a = document.getElementById("results");
     a.innerHTML = null;
+}
+
+function clearData()
+{
+    score = [];
+    questionOrder = [];
+    selectionID = null;
+    currQuestion = null;
+    result = null;
 }
 
 function debugLine()
