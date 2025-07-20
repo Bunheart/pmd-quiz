@@ -286,7 +286,7 @@ html, body
 
 .resultsDialogue p
 {
-    margin: 0.5em 0;
+    margin: 0.5em;
 }
 
 .resetContainer
@@ -390,6 +390,16 @@ html, body
     .resultsDialogue
     {
         width: 60%;
+    }
+
+    .resultsDialogue p, .resultsDialogue .pokeName
+    {
+        font-size: calc(60vw * 0.1);
+    }
+
+    .resetButton
+    {
+        font-size: calc(40vw * 0.2);
     }
 }
 
