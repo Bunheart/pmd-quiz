@@ -139,6 +139,11 @@ html, body
     margin-bottom: 1em;
 }
 
+.question p
+{
+    padding: 0 1em;
+}
+
 .dialogue
 {
     color: white;
@@ -150,6 +155,7 @@ html, body
     margin-right: auto;
     margin-top: 1em;
     margin-bottom: 1em;
+    text-align:center;
 }
 
 .answer
@@ -307,6 +313,7 @@ html, body
 {
     margin: auto;
     color:white;
+    text-align:center;
 }
 
 #finalResult
