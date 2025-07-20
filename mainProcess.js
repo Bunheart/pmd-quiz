@@ -1,6 +1,17 @@
 // ORDER: "Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", "Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", "Mild", "Quiet", "Bashful", "Rash", "Calm", "Gentle", "Sassy", "Careful", "Quirky"
 const natureList = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", "Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", "Mild", "Quiet", "Bashful", "Rash", "Calm", "Gentle", "Sassy", "Careful", "Quirky"];
 var score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+const fadeSpeed = 3000;
+const guaranteedQuestionIDs = [0, 1];
+const specialQuestionStartID = 2;
+const specialQuestionEndID = 4;
+const totalQuestions = 10;
+const randomQuestionStartID = 5;
+const randomQuestionEndID = 38;
+const genderQuestionID = 39;
+
+
 var questionOrder = [];
 var selectionID = 0;
 var currQuestion;
@@ -11,14 +22,13 @@ var result;
 var questions;
 var musicStarted = false;
 var introComplete = false;
-
 startProcess();
 
 async function startProcess()
 {
     specialScript = await loadData("data/scriptSpecial.json");
     await startScreen();
-    setTimeout(mainProcess, 3000);
+    setTimeout(mainProcess, fadeSpeed);
 }
 
 async function startScreen()
@@ -84,7 +94,7 @@ function waitForMonologueClick(currentLine, finalLine) {
             if (currentLine == finalLine)
             {
                 fadeOutDarkBackground();
-                setTimeout(endMonologueScene, 3000);
+                setTimeout(endMonologueScene, fadeSpeed);
             }
             container.removeEventListener('click', progressMonologue);
             resolve();
@@ -107,6 +117,7 @@ async function endMonologueScene()
     a.remove();
     b.remove();
 }
+
 async function mainProcess()
 {
     questions = await loadData("data/questions.json");
@@ -158,17 +169,18 @@ async function loadData(url)
 
 function selectQuestions()
 {
-    // Starts with two of the guaranteed questions
-    var questionIDs = [0, 1];
-    var a = 0;
+    let questionIDs = [];
+    let a = 0;
+
+    guaranteedQuestionIDs.forEach((value) => questionIDs.push(value));
 
     // Selects a special question
-    questionIDs.push(Math.floor(Math.random() * (4 - 2 + 1) + 2));
+    questionIDs.push(Math.floor(Math.random() * (specialQuestionEndID - specialQuestionStartID + 1) + specialQuestionStartID));
 
-    while (questionIDs.length < 10)
+    while (questionIDs.length < totalQuestions)
     {
-        // This pulls from question IDs 5 - 38. 0 and 1 are reserved for season and type, 2-4 are special questions, 39 is gender
-        a = Math.floor(Math.random() * (38 - 5 + 1) + 5);
+        // This pulls from the random question pull until the queue is filled
+        a = Math.floor(Math.random() * (randomQuestionEndID - randomQuestionStartID + 1) + randomQuestionStartID);
         if (!questionIDs.includes(a))
         {
             questionIDs.push(a);
@@ -178,7 +190,7 @@ function selectQuestions()
     questionOrder = jumbleArray(questionIDs);
     console.log(questionOrder);
     // Guaranteed final question added after the reshuffle
-    questionOrder.push(39)
+    questionOrder.push(genderQuestionID);
 }
 
 function jumbleArray(oldArray)
@@ -324,7 +336,6 @@ function waitForButtonClick(buttonClass) {
     });
 }
 
-// Turns things into arrays
 function makeArray(input) {
 
   if (Array.isArray(input))
@@ -332,7 +343,6 @@ function makeArray(input) {
         return input;
     }
 
-  // Attempts to parse a string into an array
   try 
   {
     const parsed = JSON.parse(input);
@@ -376,9 +386,4 @@ function playMusic()
 {
     let a = document.getElementById("music");
     a.play(); 
-}
-
-function debugLine()
-{
-    console.log("==================================");
 }
