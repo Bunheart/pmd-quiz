@@ -259,24 +259,13 @@ html, body
     font-size: 1.5rem;
     opacity:80%;
     box-sizing: border-box;
+    overflow-wrap: break-word;
 }
 
 .answerButton:hover
 {
     opacity:100%;
     transition: opacity 0.3s ease-in-out;
-}
-
-.resetContainer
-{
-    width: 20%;
-    height: 10%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 0.5em;
 }
 
 /* Results */
@@ -293,6 +282,22 @@ html, body
     margin-top: 1em;
     margin-bottom: 1em;
     text-align:center;
+}
+
+.resultsDialogue p
+{
+    margin: 0.5em 0;
+}
+
+.resetContainer
+{
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5em;
 }
 
 .resetButton
@@ -323,10 +328,10 @@ html, body
 
 .portrait
 {
-        display:flex;
-        margin-left:auto;
-        margin-right:auto;
-        image-rendering: pixelated;
+    display:flex;
+    margin-left:auto;
+    margin-right:auto;
+    image-rendering: pixelated;
 }
 
 #finalResult
@@ -349,25 +354,42 @@ html, body
     /* Questions */
     .question
     {
-        max-height: 10%;
+        height: 10%;
     }
 
     .question p
     {
-        font-size: 90%;
+        font-size: calc(80vw * 0.08);
+        margin: 0;
     }
     /* Answers */
 
     .answerList
     {
         width: 80%;
+    }
+
+    .answerButton
+    {
         height: 10%;
+        font-size: calc(80vw * 0.08);
+        padding: 0.5em;
     }
 
     /* Results */
     .portrait
     {
         width: 40%;
+    }
+
+    .resetContainer
+    {
+        width: 40%;
+    }
+
+    .resultsDialogue
+    {
+        width: 60%;
     }
 }
 
@@ -392,5 +414,15 @@ html, body
     .portrait
     {
         width: 10%;
+    }
+
+    .resetContainer
+    {
+        width: 20%;
+    }
+
+    .resultsDialogue
+    {
+        width: 30%;
     }
 }
