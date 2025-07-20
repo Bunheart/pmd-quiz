@@ -17,7 +17,3 @@ Pokémon portrait sprites are sourced from [PMDCollab](https://sprites.pmdcollab
 - ["Wonder Mail" font](https://www.dafont.com/wonder-mail.font) sprites by Spike Chunsoft and assembled by [ShinxHijinx](https://www.reddit.com/user/ShinxHijinx/)
 
 Other sprites and audio by Spike Chunsoft.
-
-## Todo
-
-- Full script for results needs to be implemented

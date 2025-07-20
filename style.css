@@ -1,14 +1,14 @@
 @font-face 
 {
-    font-family: "WonderMail";
-    src: url("font/wondermail.ttf") format("truetype");
+        font-family: "WonderMail";
+        src: url("font/wondermail.ttf") format("truetype");
 }
 
 * 
 {
-  box-sizing: border-box;
-  font-family: "WonderMail";
-  font-size: 2rem;
+    box-sizing: border-box;
+    font-family: "WonderMail";
+    font-size: 2rem;
 }
 
 html, body
@@ -25,34 +25,54 @@ html, body
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    width: 100vw;
 }
+
+.fillSpace
+{
+    flex: 1;
+}
+
+/* Border */
+
+.hasBorder
+{
+    border: 5px solid transparent; 
+    border-image-source: url("img/border.png");
+    border-image-slice: 5 7;
+    border-image-repeat: stretch;
+    border-image-width: auto;
+    background-clip: padding-box;
+}
+
+/* Backgrounds */
 
 #background
 {
-    position: absolute;
-    overflow: hidden;
-    height: 100vh;
-    width: 100vw;
-    z-index: -10;
+        position: absolute;
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        z-index: -10;
 }
 
-.layer1
+.bgLayer1
 {
-    position:absolute;
-    z-index:0;
+        position:absolute;
+        z-index:0;
 }
 
-.layer2
+.bgLayer2
 {
-    position:absolute;
-    z-index:1;
+        position:absolute;
+        z-index:1;
 }
 
 .bgScrollingLeft
 {
-    display:flex;
-    height: 100vh;
-    width: 200vw;
+        display:flex;
+        height: 100vh;
+        width: 200vw;
 }
 
 .bgScrollingRight
@@ -72,12 +92,14 @@ html, body
 }
 
 @keyframes bgScrollingL {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+    from
+    {
+        transform: translateX(0);
+    }
+    to
+    {
+        transform: translateX(-100%);
+    }
 }
 
 .bgImageR
@@ -91,14 +113,14 @@ html, body
 }
 
 @keyframes bgScrollingR {
-  0% {
-    transform: translateX(-100%);
-    
-  }
-  100% {
-    transform: translateX(0);
-    
-  }
+    from
+    {
+        transform: translateX(-100%); 
+    }
+    to 
+    {
+        transform: translateX(0);    
+    }
 }
 
 .hueShift
@@ -108,19 +130,79 @@ html, body
 
 @keyframes hueShift 
 {
-    0%
+    from
     {
         filter: hue-rotate(0deg);
     }
-    100%
+    to
     {
         filter: hue-rotate(360deg);
     }
 }
-.fillSpace
+
+#darkBG
 {
-    flex: 1;
+    position:absolute;
+    z-index: 2;
 }
+
+.fadeIn
+{
+    background-color: #212421;
+    width: 100vw;
+    height: 100vh;
+    opacity: 70%;
+    animation: fadeIn 3s linear;
+}
+
+@keyframes fadeIn {
+    from 
+    {
+        opacity: 0%;
+    }
+    to 
+    {
+        opacity: 70%;
+    }
+}
+
+    .fadeOut
+    {
+        background-color: #212421;
+        width: 100vw;
+        height: 100vh;
+        opacity: 0%;
+        animation: fadeOut 3s linear;
+    }
+
+    @keyframes fadeOut {
+    from {
+        opacity: 70%;
+    }
+    to {
+        opacity: 0%;
+    }
+    }
+
+/* Monologue */
+
+#monologueContainer
+{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+#monologueDialogue
+{
+    margin: auto;
+    color:white;
+    text-align:center;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+/* Questions */
 
 .question
 {
@@ -128,7 +210,6 @@ html, body
     background-color: #212421;
     font-size: 1.5rem;
     width: 80%;
-    height: 10%;
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -137,26 +218,15 @@ html, body
     margin-top: auto;
     margin-left: 10%;
     margin-bottom: 1em;
+    overflow-wrap: break-word;
 }
 
 .question p
 {
-    padding: 0 1em;
+        padding: 0.5em 1em;
 }
 
-.dialogue
-{
-    color: white;
-    background-color: #212421;
-    display:flex;
-    justify-content: center;
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    text-align:center;
-}
+/* Answers */
 
 .answer
 {
@@ -169,8 +239,6 @@ html, body
 
 .answerList
 {
-    width: 20%;
-    height: 10%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -211,6 +279,22 @@ html, body
     margin-bottom: 0.5em;
 }
 
+/* Results */
+
+.resultsDialogue
+{
+    color: white;
+    background-color: #212421;
+    display:flex;
+    justify-content: center;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align:center;
+}
+
 .resetButton
 {
     color: white;
@@ -239,81 +323,10 @@ html, body
 
 .portrait
 {
-    display:flex;
-    margin-left:auto;
-    margin-right:auto;
-    width: 10%;
-    image-rendering: pixelated;
-}
-
-.hasBorder
-{
-    border: 5px solid transparent; 
-    border-image-source: url("img/border.png");
-    border-image-slice: 5 7;
-    border-image-repeat: stretch;
-    border-image-width: auto;
-    background-clip: padding-box;
-}
-
-#darkBG
-{
-    position:absolute;
-    z-index: 2;
-}
-
-.fadeIn
-{
-    background-color: #212421;
-    width: 100vw;
-    height: 100vh;
-    opacity: 70%;
-    animation: fadeIn 3s linear;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0%;
-    
-  }
-  to {
-    opacity: 70%;
-    
-  }
-}
-
-.fadeOut
-{
-    background-color: #212421;
-    width: 100vw;
-    height: 100vh;
-    opacity: 0%;
-    animation: fadeOut 3s linear;
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 70%;
-    
-  }
-  to {
-    opacity: 0%;
-    
-  }
-}
-
-#monologueContainer
-{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-}
-
-#monologueDialogue
-{
-    margin: auto;
-    color:white;
-    text-align:center;
+        display:flex;
+        margin-left:auto;
+        margin-right:auto;
+        image-rendering: pixelated;
 }
 
 #finalResult
@@ -328,4 +341,56 @@ html, body
 {
     margin-top:auto;
     margin-bottom:auto;
+}
+
+/* Rotation Specific */
+@media (orientation: portrait)
+{
+    /* Questions */
+    .question
+    {
+        max-height: 10%;
+    }
+
+    .question p
+    {
+        font-size: 90%;
+    }
+    /* Answers */
+
+    .answerList
+    {
+        width: 80%;
+        height: 10%;
+    }
+
+    /* Results */
+    .portrait
+    {
+        width: 40%;
+    }
+}
+
+@media (orientation: landscape)
+{
+    /* Questions */
+
+    .question
+    {
+        height: 20%;
+    }
+
+    /* Answers */
+
+    .answerList
+    {
+        width: 20%;
+        height: 10%;
+    }
+
+    /* Results */
+    .portrait
+    {
+        width: 10%;
+    }
 }

@@ -57,7 +57,7 @@ function createTextboxResult(container, text)
 {
 
     textbox = document.createElement("div");
-    textbox.classList.add("dialogue");
+    textbox.classList.add("resultsDialogue");
     textbox.classList.add("hasBorder");
     
     boxText = document.createElement("p");
